@@ -19,13 +19,15 @@
         />
       </van-cell-group>
       <div class="login-btn">
-        <van-button type="info" class="btn" @click="handleLogin">登录</van-button>
+        <!-- 表单中按钮有默认提交行为用.prevent修饰符阻止 -->
+        <van-button type="info" class="btn" @click.prevent="handleLogin">登录</van-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'LoginIndex',
   data () {
@@ -37,7 +39,14 @@ export default {
     }
   },
   methods: {
-    handleLogin () { }
+    async handleLogin () {
+      const res = await axios({
+        method: 'POST',
+        url: 'http://toutiao.course.itcast.cn/app/v1_0/authorizations',
+        data: this.user
+      })
+      console.log(res)
+    }
   }
 }
 </script>

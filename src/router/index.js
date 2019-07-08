@@ -7,12 +7,12 @@ export default new Router({
   routes: [{
     name: 'home',
     path: '/',
-    components: () => import('@/views/home')
+    component: () => import('@/views/home')
   },
   {
     name: 'login',
     path: '/login',
-    components: () => import('@/views/login')
+    component: () => import('@/views/login')
   }
   ]
 })

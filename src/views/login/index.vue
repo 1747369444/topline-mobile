@@ -33,8 +33,8 @@ export default {
   data () {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '15664441107',
+        code: '123456'
       }
     }
   },

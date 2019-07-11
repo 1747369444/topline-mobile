@@ -11,7 +11,8 @@ import axios from 'axios'
  */
 // 配置基础路由
 const request = axios.create({
-  baseURL: 'http://toutiao.course.itcast.cn'
+  // baseURL: 'http://toutiao.course.itcast.cn' //局域网地址
+  baseURL: 'http://ttapi.research.itcast.cn/' // 线上接口地址
 })
 
 // 设置请求拦截器

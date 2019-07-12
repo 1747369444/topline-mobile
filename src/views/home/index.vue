@@ -68,7 +68,7 @@ export default {
       }
       /**
        * 修改channels，将这个数据结构修改为满足我们使用的需求，
-       * 因为每个个标签页数据都不同
+       * 因为每个个标签页数据都不同对应一分数据
        */
       channels.forEach(item => {
         item.articles = [] // 用来存储当前文章的列表
@@ -78,6 +78,7 @@ export default {
       })
       this.channels = channels
     },
+    // 上拉加载更多，push数据
     onLoad () {
       // console.log('onLoad')
       // 异步更新数据
@@ -94,6 +95,7 @@ export default {
         }
       }, 500)
     },
+    // 下拉刷新,如果有新数据，则重置列表数据
     onRefresh () {
       console.log('onRefresh')
       setTimeout(() => {

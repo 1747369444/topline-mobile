@@ -3,7 +3,7 @@
     <van-nav-bar title="首页" fixed />
     <!-- activeChannelIndex 绑定当前激活的标签页，使用索引 -->
     <van-tabs class="channel-tabs" v-model="activeChannelIndex">
-      <van-tab title="标签 1">
+      <van-tab v-for="channelItem in channels" :key="channelItem.id" :title="channelItem.name">
         <!--
             下拉刷新
             isLoading 用来控制下拉刷新的 loading 状态
@@ -24,14 +24,12 @@
           </van-list>
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
+import { getUserChannels } from '@/api/channel'
 export default {
   name: 'HomeIndex',
   data () {
@@ -40,12 +38,38 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      isLoading: false
+      isLoading: false,
+      channels: [] // 存储频道列表
     }
   },
+  created () {
+    this.loadChannels()
+  },
   methods: {
+    async loadChannels () {
+      const { user } = this.$store.state
+      let channels = []
+      // 如果用户已登录
+      if (user) {
+        const data = await getUserChannels()
+        console.log(data)
+        channels = data.channels
+      } else {
+        // 没有登录
+        // 如果有本地存储数据则使用本地存储中的频道列表
+        const loadChannels = JSON.parse(window.localStorage.getItem('channels'))
+        if (loadChannels) {
+          channels = loadChannels
+        } else {
+          // 如果没有本地存储频道数据则请求获取默认推荐频道列表
+          const data = await getUserChannels()
+          channels = data.channels
+        }
+      }
+      this.channels = channels
+    },
     onLoad () {
-      console.log('onLoad')
+      // console.log('onLoad')
       // 异步更新数据
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {

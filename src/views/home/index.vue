@@ -98,8 +98,20 @@ export default {
     // 上拉加载更多，push数据
     async onLoad () {
       // console.log('onLoad')
+      // 使用已封装的定时器控制加载
+      await this.$sleep(800)
+
       let data = []
       data = await this.loadArticles()
+      // 如果没有 pre_timestamp 并且数组是空的，则意味着没有数据了，没有新数据
+      if (!data.pre_timestamp && !data.results.length) {
+        // 设置该频道数据已记载完毕，组件会自动给出提示，并且不再加载
+        this.activeChannel.upPullFinished = true
+        // 取消 loading
+        this.activeChannel.upPullLoading = false
+        // 代码不要往后继续执行了
+        return
+      }
 
       // pre_timestamp 下一页的页码
       // results 文章列表

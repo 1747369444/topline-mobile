@@ -29,6 +29,16 @@ Vue.use(Vant)
 
 Vue.config.productionTip = false
 
+// 把定时器放在VUe原型中减少了定时器的嵌套
+
+Vue.prototype.$sleep = time => {
+  return new Promise((resolve, reject) => {
+    window.setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 new Vue({
   router,
   store,

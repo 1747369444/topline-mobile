@@ -134,11 +134,33 @@ export default {
       this.activeChannel.upPullLoading = false
     },
     // 下拉刷新,如果有新数据，则重置列表数据
-    onRefresh () {
-      console.log('onRefresh')
-      setTimeout(() => {
-        this.isLoading = false
-      }, 3000)
+    async onRefresh () {
+      // 取出activeChannel
+      const { activeChannel } = this
+      // 备份加载下一页数据的时间戳
+      const timestamp = this.activeChannel.timestamp
+      // 使用最新时间戳去请求最新的推荐数据
+      this.activeChannel.timestamp = Date.now()
+      const data = await this.loadArticles()
+      // 如果有最新数据，将数据更新到频道的文章列表中
+      if (data.results.length) {
+        // 将当前最新的推荐内容重置到频道文章中
+        activeChannel.articles = data.results
+
+        // 由于你重置了文章列表，那么当前数据中的 pre_timestamp 就是上拉加载更多的下一页数据的时间戳
+        activeChannel.timestamp = data.pre_timestamp
+        activeChannel.downPullSuccessText = '更新成功'
+
+        // 当下拉刷新有数据并重置以后数据无法满足一屏，所以我们使用 onLoad 再多加载一页数据
+        this.onLoad()
+      } else {
+        // 如果没有最新数据，提示已是最新内容
+        activeChannel.downPullSuccessText = '已是最新数据'
+      }
+      // 下拉刷新结束，取消 loading 状态D
+      activeChannel.downPullLoading = false
+      // 没有最新数据，将原来的用于请求下一页的时间戳恢复过来
+      activeChannel.timestamp = timestamp
     },
     async loadArticles () {
       const { id: channelId, timestamp } = this.activeChannel

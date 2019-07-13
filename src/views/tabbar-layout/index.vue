@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- 路由出口 -->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <!-- 缓存路由组件 -->
     <van-tabbar route>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="search" to="/qa">问答</van-tabbar-item>

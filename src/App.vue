@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive>
+      <!-- 缓存路由组件 -->
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 

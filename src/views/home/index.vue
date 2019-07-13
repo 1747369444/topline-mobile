@@ -10,7 +10,12 @@
             下拉刷新的时候，它会自动将 loading 设置为 true
             @refresh 当下拉刷新的时候会触发
         -->
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-pull-refresh
+          v-model="channelItem.downPullLoading"
+          @refresh="onRefresh"
+          :success-text="channelItem.downPullSuccessText"
+          :success-duration="1000"
+        >
           <!--
               列表组件：主要提供上拉加载更多的功能
               loading 用来控制加载中 loading 状态
@@ -139,14 +144,15 @@ export default {
       const { activeChannel } = this
       // 备份加载下一页数据的时间戳
       const timestamp = this.activeChannel.timestamp
+
       // 使用最新时间戳去请求最新的推荐数据
       this.activeChannel.timestamp = Date.now()
       const data = await this.loadArticles()
+
       // 如果有最新数据，将数据更新到频道的文章列表中
       if (data.results.length) {
         // 将当前最新的推荐内容重置到频道文章中
         activeChannel.articles = data.results
-
         // 由于你重置了文章列表，那么当前数据中的 pre_timestamp 就是上拉加载更多的下一页数据的时间戳
         activeChannel.timestamp = data.pre_timestamp
         activeChannel.downPullSuccessText = '更新成功'

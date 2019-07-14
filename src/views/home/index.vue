@@ -3,6 +3,10 @@
     <van-nav-bar title="首页" fixed />
     <!-- activeChannelIndex 绑定当前激活的标签页，使用索引 -->
     <van-tabs class="channel-tabs" v-model="activeChannelIndex">
+      <!-- 编辑按钮 -->
+      <div slot="nav-right" class="wap-nav">
+        <van-icon name="wap-nav" />
+      </div>
       <van-tab v-for="channelItem in channels" :key="channelItem.id" :title="channelItem.name">
         <!--
             下拉刷新
@@ -208,5 +212,11 @@ export default {
 }
 .channel-tabs /deep/ .van-tabs__content {
   margin-top: 100px;
+}
+ .wap-nav {
+  position: fixed;
+  right: 0;
+  background-color: #fff;
+  line-height: 100px;
 }
 </style>

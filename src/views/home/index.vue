@@ -4,7 +4,7 @@
     <!-- activeChannelIndex 绑定当前激活的标签页，使用索引 -->
     <van-tabs class="channel-tabs" v-model="activeChannelIndex">
       <!-- 编辑按钮 -->
-      <div slot="nav-right" class="wap-nav">
+      <div slot="nav-right" class="wap-nav" @click="isChannelShow = true">
         <van-icon name="wap-nav" />
       </div>
       <van-tab v-for="channelItem in channels" :key="channelItem.id" :title="channelItem.name">
@@ -43,22 +43,31 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
+    <!-- 频道管理组件 -->
+    <!--
+      v-model 实际上是：
+        v-bind:value="数据"
+        v-on:input="数据 = $event"
+    -->
+    <HomeChannel v-model="isChannelShow" />
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/channel'
 import { getArticles } from '@/api/article'
+import HomeChannel from './components/channel'
 export default {
   name: 'HomeIndex',
+  components: {
+    HomeChannel
+  },
   data () {
     return {
       activeChannelIndex: 0,
-      list: [],
-      loading: false,
-      finished: false,
-      isLoading: false,
-      channels: [] // 存储频道列表
+      channels: [], // 存储频道列表
+      // isChannelShow: false // 编辑弹出层
+      isChannelShow: true // 编辑弹出层
     }
   },
   computed: {
@@ -213,7 +222,7 @@ export default {
 .channel-tabs /deep/ .van-tabs__content {
   margin-top: 100px;
 }
- .wap-nav {
+.wap-nav {
   position: fixed;
   right: 0;
   background-color: #fff;

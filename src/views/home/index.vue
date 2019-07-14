@@ -49,7 +49,10 @@
         v-bind:value="数据"
         v-on:input="数据 = $event"
     -->
-    <HomeChannel v-model="isChannelShow" />
+    <HomeChannel
+    v-model="isChannelShow"
+    :user-channels="channels"
+    :active-index="activeChannelIndex" />
   </div>
 </template>
 

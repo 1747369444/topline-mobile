@@ -38,7 +38,25 @@
               v-for="articleItem in channelItem.articles"
               :key="articleItem.art_id"
               :title="articleItem.title"
-            />
+            >
+              <div slot="label">
+                <template v-if="articleItem.cover.type">
+                  <van-grid :border="false" :column-num="3">
+                    <van-grid-item v-for="(img,index) in articleItem.cover.images" :key="index">
+                      <van-image :src="img" lazy-load />
+                    </van-grid-item>
+                  </van-grid>
+                </template>
+
+                <p>
+                  <span>{{articleItem.aut_name}}</span>
+                  &nbsp;
+                  <span>{{articleItem.comm_count}}评论</span>
+                  &nbsp;
+                  <span>{{articleItem.pubdate}}</span>
+                </p>
+              </div>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -84,7 +102,7 @@ export default {
       activeChannelIndex: 0,
       channels: [], // 存储频道列表
       // isChannelShow: false // 编辑弹出层
-      isChannelShow: true // 编辑弹出层
+      isChannelShow: false // 编辑弹出层
     }
   },
   computed: {

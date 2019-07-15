@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 引入第三方库
-import Vant from 'vant'
+import Vant, {
+  Lazyload
+} from 'vant'
 import 'vant/lib/index.css'
 // 引入的配置REM的文件
 import 'amfe-flexible'
@@ -27,6 +29,8 @@ Validator.localize('zh_CN', zhCN)
 
 Vue.use(Vant)
 
+// options 为可选参数，无则不传VantUI图片懒加载
+Vue.use(Lazyload)
 Vue.config.productionTip = false
 
 // 把定时器放在VUe原型中减少了定时器的嵌套

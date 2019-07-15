@@ -17,7 +17,16 @@ import zhCN from 'vee-validate/dist/locale/zh_CN'
 import VeeValidate, {
   Validator
 } from 'vee-validate'
-
+// 引入配置时间的插件
+import dayjs from 'dayjs'
+// 加载中文语言包
+import 'dayjs/locale/zh-cn'
+// dayjs 的 相对时间插件
+import relativeTime from 'dayjs/plugin/relativeTime'
+// 把插件注册到 dayjs 中
+dayjs.extend(relativeTime)
+// 配置使用中文语言包
+dayjs.locale('zh-cn')
 Vue.use(VeeValidate, {
   // 配置改变的时候去触发校验，默认是 input
   // 配置文档：https://baianat.github.io/vee-validate/guide/events.html#changing-default-events

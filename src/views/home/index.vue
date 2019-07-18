@@ -64,6 +64,13 @@
                   - >
                   <！ -
                   <span>{{relativeTime（articleItem.pubdate）}}</span> - >-->
+                  <!-- //局部过滤器只能在当前组件使用
+                  //过滤器：{
+                  // 过滤器名称（参数）{
+                  // //其它逻辑
+                  // 返回结果
+                  // }
+                  // }， -->
                   <span>{{articleItem.pubdate | relativeTime}}</span>
                 </p>
               </div>

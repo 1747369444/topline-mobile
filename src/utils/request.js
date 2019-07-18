@@ -1,7 +1,8 @@
 import axios from 'axios'
 // 因为不是组件需要全局加载store
 import store from '@/store'
-
+// 处理后端返回数据超出安全范围
+import JSONbig from 'json-bigint'
 /**
  * axios.create 用于创建一个 axios 实例，该实例和 axios 的功能是一模一样的
  * 说白了就是克隆了一个 axios
@@ -16,6 +17,16 @@ const request = axios.create({
   // baseURL: 'http://toutiao.course.itcast.cn' //局域网地址
   baseURL: 'http://ttapi.research.itcast.cn/' // 线上接口地址
 })
+
+request.defaults.transformResponse = [function (data) {
+  try {
+    // data 数据可能不是标准的 JSON 格式字符串，否则会导致 JSONbig.parse(data) 转换失败报错
+    return JSONbig.parse(data)
+  } catch (err) {
+    // 无法转换的数据直接原样返回
+    return data
+  }
+}]
 
 // 设置请求拦截器
 request.interceptors.request.use(function (config) {

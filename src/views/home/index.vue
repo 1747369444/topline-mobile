@@ -70,8 +70,9 @@
                   // //其它逻辑
                   // 返回结果
                   // }
-                  // }， -->
+                  // }，-->
                   <span>{{articleItem.pubdate | relativeTime}}</span>
+                  <van-icon class="close" name="close" @click="isMoreActionShow = true" />
                 </p>
               </div>
             </van-cell>
@@ -103,6 +104,9 @@
     <!-- 这两句话简写等于上面↑↑↑ -->
     <!-- :active-index="activeChannelIndex" -->
     <!-- @update:active-index="activeChannelIndex = $event" -->
+    <!-- 更多操作 -->
+    <MoreAction v-model="isMoreActionShow"></MoreAction>
+    <!-- /更多操作 -->
   </div>
 </template>
 
@@ -110,17 +114,20 @@
 import { getUserChannels } from '@/api/channel'
 import { getArticles } from '@/api/article'
 import HomeChannel from './components/channel'
+import MoreAction from './components/more-action'
 export default {
   name: 'HomeIndex',
   components: {
-    HomeChannel
+    HomeChannel,
+    MoreAction
   },
   data () {
     return {
       activeChannelIndex: 0,
       channels: [], // 存储频道列表
       // isChannelShow: false // 编辑弹出层
-      isChannelShow: false // 编辑弹出层
+      isChannelShow: false, // 编辑弹出层
+      isMoreActionShow: false // 更多操作对话框
     }
   },
   computed: {
@@ -280,5 +287,9 @@ export default {
   right: 0;
   background-color: #fff;
   line-height: 100px;
+}
+.channel-tabs .close {
+  float: right;
+  font-size: 30px;
 }
 </style>
